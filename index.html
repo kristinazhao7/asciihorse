@@ -10,8 +10,8 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      background: #000; /* optional: black background for contrast */
-      color: #0aff8c;  /* optional: neon green text color */
+      background: #fff;
+      color: #2d2d2d;  
       font-family: "Courier New", monospace;
       display: flex;
       align-items: center;
@@ -31,7 +31,7 @@
       background: transparent;
     }
 
-    /* Optional: responsive font adjustments */
+    /* responsive font adjustments */
     @media (max-width: 768px) { #ascii-art { font-size: 50%; } }
     @media (min-width:1200px) { #ascii-art { font-size: 60%; } }
   </style>
@@ -39,17 +39,17 @@
 <body>
   <pre id="ascii-art"></pre>
 
-  <!-- link to your exported animation frames -->
+  
   <script src="animation.js"></script>
 
   <script>
-    // Simple autoplaying loop
+    // loop
     const fps = 24; // adjust as needed
     const asciiArt = document.getElementById('ascii-art');
     let i = 0;
 
     function render() {
-      asciiArt.textContent = frames[i]; // frames[] comes from animation.js
+      asciiArt.textContent = frames[i];
       i = (i + 1) % frames.length;
     }
 
