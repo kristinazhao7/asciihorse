@@ -1,145 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ASCII Animation</title>
+
   <style>
-     html, body {
-       margin: 0;
-       padding: 0;
-       height: 100%;
-     }
-     body {
-       background: #fff;
-       color: #000;
-       font-family: monospace;
-       display: flex;
-       flex-direction: column;
-       align-items: center;
-       justify-content: center;
-       padding: 20px;
-       box-sizing: border-box;
-     }
-     #ascii-container {
-       display: flex;
-       flex-direction: column;
-       align-items: center;
-       justify-content: center;
-       gap: 20px;
-       width: 100%;
-       max-width: 1200px;
-     }
-     
-     @media (max-width: 768px) {
-       #ascii-art {
-         font-size: 50%;
-         padding: 10px;
-       }
-       .controls {
-         gap: 10px;
-       }
-       button {
-         padding: 6px 12px;
-         font-size: 12px;
-       }
-     }
-     
-     @media (min-width: 1200px) {
-       #ascii-art {
-         font-size: 60%;
-       }
-     }
-     #ascii-art {
-       font-family: "Courier New", monospace;
-       font-size: 50%;
-       white-space: pre;
-       line-height: 1;
-       background-color: #fff;
-       color: #2d2d2d;
-       padding: 20px;
-       border: 1px solid #ccc;
-       margin: 0 auto;
-       text-align: center;
-       max-width: 100%;
-       overflow-x: auto;
-     }
-    .controls {
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000; /* optional: black background for contrast */
+      color: #0aff8c;  /* optional: neon green text color */
+      font-family: "Courier New", monospace;
       display: flex;
-      gap: 10px;
       align-items: center;
       justify-content: center;
-      margin-top: 10px;
     }
-    .controls {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      justify-content: center;
-      margin: 20px 0;
-      width: 100%;
+
+    /* ASCII animation display area */
+    #ascii-art {
+      white-space: pre;
+      line-height: 1;
+      font-size: 50%;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      /* border removed */
+      border: none;
+      background: transparent;
     }
-    button {
-      background-color: #eee;
-      color: #000;
-      border: 1px solid #ccc;
-      padding: 8px 16px;
-      cursor: pointer;
-      font-size: 14px;
-      font-family: monospace;
-      text-transform: uppercase;
-      border-radius: 4px;
-    }
-    button:hover {
-      background-color: #ddd;
-    }
-    #playBtn {
-      min-width: 80px;
-    }
+
+    /* Optional: responsive font adjustments */
+    @media (max-width: 768px) { #ascii-art { font-size: 50%; } }
+    @media (min-width:1200px) { #ascii-art { font-size: 60%; } }
   </style>
 </head>
 <body>
-  <div id="ascii-container">
-    <pre id="ascii-art"></pre>
-    <div class="controls">
-      <button id="playBtn">Play</button>
-    </div>
-    <div class="footer" style="margin-top: 20px; font-size: 12px;">
-      <a href="https://gx2-studio.com" target="_blank" style="color: #666; text-decoration: none;">Made with ASCIImotion by Gx2 Studio</a>
-    </div>
-  </div>
+  <pre id="ascii-art"></pre>
+
+  <!-- link to your exported animation frames -->
   <script src="animation.js"></script>
+
   <script>
-    let isPlaying = false;
-    let currentFrame = 0;
-    let animationInterval;
-    let fps = 24;
-
+    // Simple autoplaying loop
+    const fps = 24; // adjust as needed
     const asciiArt = document.getElementById('ascii-art');
-    const playBtn = document.getElementById('playBtn');
+    let i = 0;
 
-    function displayFrame(index) {
-      asciiArt.textContent = frames[index];
+    function render() {
+      asciiArt.textContent = frames[i]; // frames[] comes from animation.js
+      i = (i + 1) % frames.length;
     }
 
-    function togglePlayback() {
-      if (isPlaying) {
-        clearInterval(animationInterval);
-        playBtn.textContent = 'Play';
-      } else {
-        animationInterval = setInterval(() => {
-          currentFrame = (currentFrame + 1) % frames.length;
-          displayFrame(currentFrame);
-        }, 1000 / fps);
-        playBtn.textContent = 'Pause';
-      }
-      isPlaying = !isPlaying;
-    }
-
-    playBtn.addEventListener('click', togglePlayback);
-
-    if (frames.length > 0) {
-      displayFrame(0);
+    if (typeof frames !== "undefined" && frames.length) {
+      render();
+      setInterval(render, 1000 / fps);
     }
   </script>
 </body>
